@@ -36,7 +36,14 @@ public class CarService {
      * @return a list of all vehicles in the CarRepository
      */
     public List<Car> list() {
-        return repository.findAll();
+        List<Car> list = repository.findAll();
+        //Update Price and Location of list
+        for(Car car: list){
+            Long id = car.getId();
+            car = findById(id);
+        }
+
+        return list;
     }
 
     /**
@@ -104,12 +111,11 @@ public class CarService {
          * TODO: Find the car by ID from the `repository` if it exists.
          *   If it does not exist, throw a CarNotFoundException
          */
-
-
+        Car car = repository.findById(id).orElseThrow(CarNotFoundException::new);
         /**
          * TODO: Delete the car from the repository.
          */
-
+        repository.delete(car);
 
     }
 }
